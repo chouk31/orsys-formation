@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Formulaire de saisie des notes</title>
+    </head>
+    <script type="text/javascript">
+        function createXMLHttpRequest() {
+              if (typeof XMLHttpRequest == "undefined")
+                XMLHttpRequest = function () {
+                    try {
+                        return new ActiveXObject("Msxml2.XMLHTTP.6.0")
+                    } catch (e) {
+                    }
+                    try {
+                        return new ActiveXObject("Msxml2.XMLHTTP.3.0")
+                    } catch (e) {
+                    }
+                    try {
+                        return new ActiveXObject("Msxml2.XMLHTTP")
+                    } catch (e) {
+                    }
+                    try {
+                        return new ActiveXObject("Microsoft.XMLHTTP")
+                    } catch (e) {
+                    }
+                    throw new Error("Ce navigateur ne supporte pas XMLHttpRequest.")
+                };
+            return new XMLHttpRequest();
+        }
+
+        var AJAX = createXMLHttpRequest();
+
+        function handler() {
+            if (AJAX.readyState == 4 && AJAX.status == 200) {
+                var json = eval('(' + AJAX.responseText + ')');
+                document.getElementById("note").innerHTML = "Note globale : " + json.noteglobale;
+            } else if (AJAX.readyState == 4 && AJAX.status != 200) {
+                alert('Note vide ou incorrecte : cours[0..25] examen[0..75]');
+            }
+        }
+
+        function show() {
+            AJAX.onreadystatechange = handler;
+            var textExam = escape(document.forms["ajax"].elements["examen"].value);
+            var textCours = escape(document.forms["ajax"].elements["cours"].value);
+            AJAX.open("GET", "service-note.jsp?examen="+textExam+"&cours="+textCours, true);
+            AJAX.send("");
+            return false;
+        }
+        ;
+    </script>
+
+    <body>
+           <form name="ajax">
+                <p>Votre note de cours : <input type="text" name="cours" value="" /></p>
+                <p>Votre note d'examen : <input type="text" name="examen" value="" /></p>
+           </form>
+        <p><button type="button"  onclick="show()">Evaluation note par ajax</button></p>
+        <div id="note">Note globale :</div>
+    </body>
+</html>

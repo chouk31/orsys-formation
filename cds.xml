@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<dataset>
+    <table name="cds"> 
+        <column>titel</column> 
+        <column>interpret</column> 
+        <column>jahr</column> 
+        <column>id</column> 
+        <row> 
+            <value>Nationale 7</value> 
+            <value>Charles TRENET</value> 
+            <value>1950</value> 
+            <value>1</value> 
+        </row> 
+    </table> 
+</dataset>
